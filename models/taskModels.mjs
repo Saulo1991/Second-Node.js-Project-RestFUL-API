@@ -1,15 +1,13 @@
 import db from '../config/db.mjs';
 
-const getTasks = (title, description, status, created_at) => {
-    db.query(
-        "SELECT * FROM todo.task;",
-        (err, results) => {
-            if (err) {
-                console.error(`Error retrieving: ${err}`);
-            } else {
-                console.log(`Results: ${results}`);
-            }
+const getTasks = () => {
+    db.query("SELECT * FROM todo.task;", (err, results) => {
+        if (err) {
+            console.error(`Error retrieving: ${err}`);
+        } else {
+            console.log(`Results: ${results}`);
         }
+    }
     );
 };
 
@@ -53,3 +51,20 @@ const patchTask = (id, title, description, status, created_at) => {
         }
     );
 };
+
+
+const deleteTask = (id) => {
+    db.query(
+        "DELETE FROM todo.task WHERE id = ?",
+        [id],
+        (err, results) => {
+            if (err) {
+                console.error(`Error deleting task: ${err}`);
+            } else {
+                console.log(`Task has been deleted: ${results}`);
+            }
+        }
+    )
+}
+
+export { getTasks, addTask, updateTask, patchTask, deleteTask };
